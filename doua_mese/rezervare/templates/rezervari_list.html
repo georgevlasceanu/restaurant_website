@@ -1,0 +1,111 @@
+
+{% extends "base.html" %}
+
+{% block main %}
+<style>
+    body {
+        background-color: hsl(0, 0%, 95%);
+        margin: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: hsl(0, 0%, 12%);
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    table, th, td {
+        border: 1px solid hsl(0, 0%, 80%);
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: hsl(0, 0%, 12%);
+        color: white;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        color: white;
+        text-align: center;
+        border-radius: 4px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: hsl(220, 90%, 40%);
+    }
+
+    .btn-danger {
+        background-color: hsl(0, 70%, 50%);
+    }
+
+    .btn-primary:hover, .btn-danger:hover {
+        opacity: 0.8;
+    }
+
+    .alert {
+        background-color: hsl(45, 100%, 90%);
+        padding: 15px;
+        color: hsl(0, 0%, 20%);
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container">
+    <h1>Lista Rezervări</h1>
+
+    {% if rezervari %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nume Utilizator</th>
+                    <th>Check-in</th>
+                    <th>Preț</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rezervare in rezervari %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ rezervare.user.username }}</td>
+                        <td>{{ rezervare.check_in|date:"M. d, Y" }}</td>
+                        <td>{{ rezervare.price }} RON</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="alert">Nu există rezervări disponibile.</p>
+    {% endif %}
+
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+        <a href="{% url 'rezervare_url' %}" class="btn btn-primary">Rezervă o Masă Nouă</a>
+        <a href="{% url 'account_logout' %}" class="btn btn-danger">Logout</a>
+    </div>
+</div>
+
+{% endblock %}

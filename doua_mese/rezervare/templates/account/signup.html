@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<style>
+    body {
+        margin: 0;
+        background-color: hsl(0, 0%, 95%);
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .signup-box {
+        background-color: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .signup-box h2 {
+        margin-bottom: 20px;
+    }
+
+    .signup-box form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .signup-box input[type="text"],
+    .signup-box input[type="email"],
+    .signup-box input[type="password"] {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .signup-box button {
+        padding: 10px;
+        background-color: hsl(0, 0%, 12%);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .signup-box button:hover {
+        background-color: hsl(0, 0%, 30%);
+    }
+
+    .additional-links {
+        margin-top: 20px;
+    }
+
+    .additional-links a {
+        color: hsl(0, 0%, 12%);
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .additional-links a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="container">
+    <div class="signup-box">
+        <h2>Înscriere</h2>
+
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Înscrie-te</button>
+            </div>
+        </form>
+
+        <div class="additional-links">
+            <p>Ai deja un cont? <a href="{% url 'account_login' %}">Conectează-te</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}
